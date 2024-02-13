@@ -6,14 +6,9 @@ import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import io.quarkiverse.langchain4j.redis.RedisEmbeddingStore;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
 
 
-public class RecommendationResource {
-
-    @Inject
-    RecommendationService recommendationService;
+public class RestaurantReviewService {
 
     @Inject
     RedisEmbeddingStore store;

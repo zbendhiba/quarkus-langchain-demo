@@ -7,7 +7,7 @@ import jakarta.inject.Singleton;
 
 @RegisterAiService(retriever = RetrieverRestaurant.class)
 @Singleton
-public interface RecommendationService {
+public interface RecommendationRestaurant {
 
     @SystemMessage("""
           

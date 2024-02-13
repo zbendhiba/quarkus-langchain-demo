@@ -18,7 +18,7 @@ public class RestaurantReviewIngestorRoute extends RouteBuilder {
     private EmbeddingStoreIngestor embeddingStoreIngestor;
 
     @Inject
-    RecommendationService recommendationService;
+    RecommendationRestaurant recommendationRestaurant;
 
 
     @Override
@@ -57,7 +57,7 @@ public class RestaurantReviewIngestorRoute extends RouteBuilder {
                     .log("Text to send to user based on response from ChatGPT : ${body}")
                     .process(exchange -> {
                             IncomingMessage incomingMessage = exchange.getMessage().getBody(IncomingMessage.class);
-                            exchange.getIn().setBody(recommendationService.recommend(incomingMessage.getText()));
+                            exchange.getIn().setBody(recommendationRestaurant.recommend(incomingMessage.getText()));
                         })
                         .to("telegram:bots")
                         .end();
