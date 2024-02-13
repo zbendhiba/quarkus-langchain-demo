@@ -5,7 +5,6 @@ import java.util.Map;
 
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.Metadata;
-import static dev.langchain4j.data.document.splitter.DocumentSplitters.recursive;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -23,14 +22,20 @@ public class Langchain4jDocumentProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
 
         // extract information from Camel Exchange
-        String body = exchange.getIn().getBody(String.class);
-        String name = exchange.getIn().getHeader("name", String.class);
+        RestaurantReview body = exchange.getIn().getBody(RestaurantReview.class);
 
-        // Create Langchain4j Document from Exchange properties
+        // Create description Document from Exchange properties
+        String text = "Restaurant name is : " + body.getName() +", type of cuisine is : "+ body.getType() + ", review from a YesRestaurant user : "+ body.getReview() + ", is located in Blabla city";
+        Document document = new Document(text, createMetadata(body));
+        exchange.getIn().setBody(document);
+
+    }
+
+    private Metadata createMetadata(RestaurantReview review){
         Map<String, String> map = new HashMap<>();
-        map.put("name", name);
-        Metadata metadata = new Metadata(map);
-        exchange.getIn().setBody(new Document(body, metadata));
-
+        map.put("restaurantName", review.getName());
+        map.put("cusineType", review.getType());
+        map.put("location",  "Blabla city");
+        return new Metadata(map);
     }
 }

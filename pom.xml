@@ -7,7 +7,7 @@
   <version>1.0.0-SNAPSHOT</version>
   <properties>
     <compiler-plugin.version>3.12.1</compiler-plugin.version>
-    <maven.compiler.release>17</maven.compiler.release>
+    <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
@@ -43,13 +43,10 @@
       <groupId>org.apache.camel.quarkus</groupId>
       <artifactId>camel-quarkus-direct</artifactId>
     </dependency>
-    <!-- TODO DELTE HERE  -->
     <dependency>
       <groupId>org.apache.camel.quarkus</groupId>
-      <artifactId>camel-quarkus-telegram</artifactId>
+      <artifactId>camel-quarkus-jackson</artifactId>
     </dependency>
-    <!-- END DELTE HERE  -->
-
     <dependency>
       <groupId>io.quarkiverse.langchain4j</groupId>
       <artifactId>quarkus-langchain4j-openai</artifactId>
@@ -64,6 +61,10 @@
       <groupId>io.quarkiverse.langchain4j</groupId>
       <artifactId>quarkus-langchain4j-core</artifactId>
       <version>0.8.0</version>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-reactive</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
