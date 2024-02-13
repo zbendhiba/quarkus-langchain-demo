@@ -4,20 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import dev.ai4j.openai4j.embedding.EmbeddingModel;
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.DocumentSplitter;
 import dev.langchain4j.data.document.Metadata;
 import static dev.langchain4j.data.document.splitter.DocumentSplitters.recursive;
-import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
-import dev.langchain4j.model.embedding.EmbeddingModel;
 import static dev.langchain4j.model.openai.OpenAiModelName.GPT_3_5_TURBO;
 import dev.langchain4j.model.openai.OpenAiTokenizer;
-import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
-import io.quarkiverse.langchain4j.redis.RedisEmbeddingStore;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
@@ -50,7 +44,5 @@ public class Langchain4jEmbeddingProcessor implements Processor {
         List<TextSegment> segments = splitter.split(document);
         exchange.getIn().setBody(segments);
 
-       /* List<Embedding> embeddings = embeddingModel.embedAll(segments).content();
-        store.addAll(embeddings, segments);*/
     }
 }
