@@ -2,12 +2,10 @@ package dev.zbendhiba;
 
 
 import dev.langchain4j.data.document.Document;
-import static dev.langchain4j.data.document.splitter.DocumentSplitters.recursive;
-import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
-import io.quarkiverse.langchain4j.redis.RedisEmbeddingStore;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 
@@ -15,10 +13,9 @@ import org.apache.camel.model.rest.RestBindingMode;
 public class RestaurantReviewIngestorRoute extends RouteBuilder {
 
     @Inject
-    RedisEmbeddingStore store;
+    @Named("embeddingStoreIngestor")
+    private EmbeddingStoreIngestor embeddingStoreIngestor;
 
-    @Inject
-    EmbeddingModel embeddingModel;
 
     @Override
     public void configure() throws Exception {
@@ -31,13 +28,6 @@ public class RestaurantReviewIngestorRoute extends RouteBuilder {
                 .componentProperty("lazyStartProducer", "true")
                 .dataFormatProperty("autoDiscoverObjectMapper", "true");
 
-
-        // TODO : Camel ?!?
-        var  embeddingStoreIngestor = EmbeddingStoreIngestor.builder()
-                    .embeddingStore(store)
-                    .embeddingModel(embeddingModel)
-                    .documentSplitter(recursive(500, 0))
-                    .build();
 
         rest("restaurant")
                 .post("/review/")
