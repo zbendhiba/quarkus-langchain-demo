@@ -48,11 +48,7 @@ public class RestaurantReviewIngestorRoute extends RouteBuilder {
                 .transform().simple("Thanks");
 
         from("direct:convert-to-document")
-                .process(new Langchain4jDocumentProcessor())
-                .to("direct:ingestDocument");
-
-        // Embed paragraphs into Vector Database
-        from("direct:ingestDocument")
+                .bean(RestaurantReviewIngestorBean.class)
                 .process(exchange -> {
                     Document document =exchange.getIn().getBody(Document.class);
                     embeddingStoreIngestor.ingest(document);

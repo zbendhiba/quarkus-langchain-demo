@@ -1,4 +1,4 @@
-package dev.zbendhiba;
+package dev.zbendhiba.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

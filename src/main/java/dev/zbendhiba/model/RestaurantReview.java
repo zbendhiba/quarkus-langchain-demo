@@ -1,6 +1,4 @@
-package dev.zbendhiba;
-
-import java.util.Map;
+package dev.zbendhiba.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -18,7 +16,7 @@ public class RestaurantReview {
     public String address;
 
     @JsonProperty("hours")
-    public  Hours hours;
+    public Hours hours;
 
     public RestaurantReview() {
     }
