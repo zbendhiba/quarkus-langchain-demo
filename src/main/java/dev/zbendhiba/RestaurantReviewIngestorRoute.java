@@ -43,6 +43,7 @@ public class RestaurantReviewIngestorRoute extends RouteBuilder {
                     Document document =exchange.getIn().getBody(Document.class);
                     embeddingStoreIngestor.ingest(document);
                 });
+
     }
 }
 

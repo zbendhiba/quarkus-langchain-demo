@@ -11,7 +11,7 @@ public interface RecommendationService {
 
     @SystemMessage("""
           
-            In this task, your responses should be based solely on information retrieved by the Retrieve and Generate (RAG) model. Do not consider any other sources of information. The restaurant are located in Blabla city.
+         In this task, your responses should be based solely on information retrieved by the Retrieve and Generate (RAG) model. Do not consider any other sources of information. The restaurant are located in Blabla city.
                                                                                                                                                                                          
           Scenario:
           ou are asked to provide recommendations for a restaurant based on user reviews. Use the information retrieved by the RAG model to generate responses that accurately reflect the sentiment and content of the retrieved reviews. Ensure that your responses are relevant and helpful to the user, taking into account the specific preferences and requirements mentioned in the reviews.
@@ -39,5 +39,5 @@ public interface RecommendationService {
             {question}
             ---
             """)
-    String recommend(String question) ;
+    String recommend(String question);
 }
