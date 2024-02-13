@@ -3,6 +3,8 @@ package dev.zbendhiba;
 import java.util.List;
 
 import dev.langchain4j.chain.ConversationalRetrievalChain;
+import dev.langchain4j.data.document.Document;
+import static dev.langchain4j.data.document.splitter.DocumentSplitters.recursive;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
@@ -12,9 +14,11 @@ import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import static dev.langchain4j.model.openai.OpenAiModelName.GPT_3_5_TURBO;
 import dev.langchain4j.retriever.EmbeddingStoreRetriever;
+import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import io.quarkiverse.langchain4j.redis.RedisEmbeddingStore;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import static java.time.Duration.ofSeconds;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.telegram.model.IncomingMessage;
@@ -36,29 +40,33 @@ public class RestaurantReviewIngestorRoute extends RouteBuilder {
     @Inject
     EmbeddingModel embeddingModel;
 
-
     @Override
     public void configure() throws Exception {
 
-        // temporary Routes
+        var  embeddingStoreIngestor = EmbeddingStoreIngestor.builder()
+                    .embeddingStore(store)
+                    .embeddingModel(embeddingModel)
+                    .documentSplitter(recursive(500, 0))
+                    .build();
 
         // REST endpoint to add a bio
         rest("data")
-                .post("/langchain4j-split-ingest/")
-                .to("direct:langchain4j-split-ingest");
+                .post("/ingest/")
+                .to("direct:process-ingest");
 
-        from("direct:langchain4j-split-ingest")
-                .wireTap("direct:process-langchain4j-split-ingest")
+        from("direct:process-ingest")
+                .wireTap("direct:convert-to-document")
                 .transform().simple("Thanks");
 
-        from("direct:process-langchain4j-split-ingest")
-                .process(new Langchain4jEmbeddingProcessor())
-                .to("direct:processTokenizedPart");
+        from("direct:convert-to-document")
+                .process(new Langchain4jDocumentProcessor())
+                .to("direct:ingestDocument");
 
         // Embed paragraphs into Vector Database
-        from("direct:processTokenizedPart")
+        from("direct:ingestDocument")
                 .process(exchange -> {
-                    embed(exchange.getIn().getBody(List.class));
+                    Document document =exchange.getIn().getBody(Document.class);
+                    embeddingStoreIngestor.ingest(document);
                 });
 
 
@@ -96,9 +104,6 @@ public class RestaurantReviewIngestorRoute extends RouteBuilder {
 
     }
 
-    public void embed(List<TextSegment> textSegments )  {
-        List<Embedding> embeddings = embeddingModel.embedAll(textSegments).content();
-        store.addAll(embeddings, textSegments);
-    }
+
 }
 
