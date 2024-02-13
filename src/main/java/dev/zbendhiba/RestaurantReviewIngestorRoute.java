@@ -39,6 +39,7 @@ public class RestaurantReviewIngestorRoute extends RouteBuilder {
 
         from("direct:convert-to-document")
                 .bean(RestaurantReviewIngestorBean.class)
+                // TODO change this
                 .process(exchange -> {
                     Document document =exchange.getIn().getBody(Document.class);
                     embeddingStoreIngestor.ingest(document);
