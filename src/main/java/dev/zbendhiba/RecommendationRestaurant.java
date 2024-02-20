@@ -5,7 +5,7 @@ import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 import jakarta.inject.Singleton;
 
-@RegisterAiService(retriever = RetrieverRestaurant.class)
+@RegisterAiService(retriever = RetrieverRestaurant.class, tools = RestaurantBooking.class)
 @Singleton
 public interface RecommendationRestaurant {
 
@@ -37,5 +37,5 @@ public interface RecommendationRestaurant {
             {question}
             ---
             """)
-    String recommend(String question);
+    String recommend(String question, String userName);
 }

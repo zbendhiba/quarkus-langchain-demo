@@ -3,6 +3,7 @@ package dev.zbendhiba;
 
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
+import dev.zbendhiba.model.Booking;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -57,10 +58,11 @@ public class RestaurantReviewIngestorRoute extends RouteBuilder {
                     .log("Text to send to user based on response from ChatGPT : ${body}")
                     .process(exchange -> {
                             IncomingMessage incomingMessage = exchange.getMessage().getBody(IncomingMessage.class);
-                            exchange.getIn().setBody(recommendationRestaurant.recommend(incomingMessage.getText()));
+                            exchange.getIn().setBody(recommendationRestaurant.recommend(incomingMessage.getText(), incomingMessage.getFrom().getFirstName()));
                         })
                         .to("telegram:bots")
                         .end();
+
 
 
     }
