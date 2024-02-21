@@ -34,7 +34,7 @@ public interface RecommendationRestaurant {
             - Based on the available data, I didn't find any specific American restaurant to recommend. Feel free to try one and send your reviews.
 
             ---
-            {question}
+            {question}, {userName}
             ---
             """)
     String recommend(String question, String userName);
