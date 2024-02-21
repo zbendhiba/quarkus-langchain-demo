@@ -5,7 +5,7 @@ import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 import jakarta.inject.Singleton;
 
-@RegisterAiService(retriever = RetrieverRestaurant.class, tools = RestaurantBooking.class)
+@RegisterAiService
 @Singleton
 public interface RecommendationRestaurant {
 
@@ -26,16 +26,7 @@ public interface RecommendationRestaurant {
             """)
     @UserMessage("""
             
-            For example:
-            - "I want recommendation for a restaurant with Chineese food"
-
-             Answer:
-            - Based on reviews we have from our users, I recommend 1041 Pizza for American restaurant at Blabla city.
-            - Based on the available data, I didn't find any specific American restaurant to recommend. Feel free to try one and send your reviews.
-
-            ---
-            {question}, {userName}
-            ---
+            I want to eat at a Moroccan restaurant!
             """)
-    String recommend(String question, String userName);
+    String recommend();
 }
