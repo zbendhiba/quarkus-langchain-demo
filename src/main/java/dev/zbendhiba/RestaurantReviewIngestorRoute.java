@@ -44,26 +44,10 @@ public class RestaurantReviewIngestorRoute extends RouteBuilder {
 
         from("direct:convert-to-document")
                 .bean(RestaurantReviewIngestorBean.class)
-                // TODO change this
                 .process(exchange -> {
                     Document document =exchange.getIn().getBody(Document.class);
                     embeddingStoreIngestor.ingest(document);
                 });
-
-
-        from("telegram:bots?timeout=30000")
-                .log("Text received in Telegram : ${body}")
-                // this is just a Hello World, we suppose that we receive only text messages from user
-                .filter(simple("${body} != '/start'"))
-                    .log("Text to send to user based on response from ChatGPT : ${body}")
-                    .process(exchange -> {
-                            IncomingMessage incomingMessage = exchange.getMessage().getBody(IncomingMessage.class);
-                            exchange.getIn().setBody(recommendationRestaurant.recommend(incomingMessage.getText(), incomingMessage.getFrom().getFirstName()));
-                        })
-                        .to("telegram:bots")
-                        .end();
-
-
 
     }
 }
