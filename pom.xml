@@ -10,11 +10,13 @@
     <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <quarkus.langchain.version>0.9.1</quarkus.langchain.version>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>3.7.2</quarkus.platform.version>
+    <quarkus.platform.version>3.8.3</quarkus.platform.version>
     <skipITs>true</skipITs>
     <surefire-plugin.version>3.2.5</surefire-plugin.version>
+    <qyarkus-langchain-qdrant.version>999-SNAPSHOT</qyarkus-langchain-qdrant.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -31,6 +33,26 @@
         <version>${quarkus.platform.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>io.quarkiverse.langchain4j</groupId>
+        <artifactId>quarkus-langchain4j-core</artifactId>
+        <version>${quarkus.langchain.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.quarkiverse.langchain4j</groupId>
+        <artifactId>quarkus-langchain4j-openai</artifactId>
+        <version>${quarkus.langchain.version}</version>
+      </dependency>
+     <!-- <dependency>
+        <groupId>io.quarkiverse.langchain4j</groupId>
+        <artifactId>quarkus-langchain4j-redis</artifactId>
+        <version>${quarkus.langchain.version}</version>
+      </dependency>-->
+      <dependency>
+        <groupId>io.quarkiverse.langchain4j</groupId>
+        <artifactId>quarkus-langchain4j-qdrant</artifactId>
+        <version>${qyarkus-langchain-qdrant.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -58,17 +80,18 @@
     <dependency>
       <groupId>io.quarkiverse.langchain4j</groupId>
       <artifactId>quarkus-langchain4j-openai</artifactId>
-      <version>0.8.0</version>
     </dependency>
-    <dependency>
+    <!--<dependency>
       <groupId>io.quarkiverse.langchain4j</groupId>
       <artifactId>quarkus-langchain4j-redis</artifactId>
-      <version>0.8.0</version>
+    </dependency>-->
+    <dependency>
+      <groupId>io.quarkiverse.langchain4j</groupId>
+      <artifactId>quarkus-langchain4j-qdrant</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkiverse.langchain4j</groupId>
       <artifactId>quarkus-langchain4j-core</artifactId>
-      <version>0.8.0</version>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>

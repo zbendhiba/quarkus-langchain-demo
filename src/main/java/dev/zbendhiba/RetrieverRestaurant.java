@@ -1,26 +1,36 @@
 package dev.zbendhiba;
 
 import java.util.List;
+import java.util.function.Supplier;
 
+import dev.langchain4j.rag.DefaultRetrievalAugmentor;
+import dev.langchain4j.rag.RetrievalAugmentor;
+import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
+import dev.langchain4j.store.embedding.qdrant.QdrantEmbeddingStore;
 import jakarta.enterprise.context.ApplicationScoped;
-
-import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.embedding.EmbeddingModel;
-import dev.langchain4j.retriever.EmbeddingStoreRetriever;
-import dev.langchain4j.retriever.Retriever;
-import io.quarkiverse.langchain4j.redis.RedisEmbeddingStore;
+
 
 @ApplicationScoped
-public class RetrieverRestaurant implements Retriever<TextSegment> {
+public class RetrieverRestaurant implements Supplier<RetrievalAugmentor> {
 
-    private final EmbeddingStoreRetriever retriever;
+    private final RetrievalAugmentor augmentor;
 
-    RetrieverRestaurant(RedisEmbeddingStore store, EmbeddingModel model) {
-        retriever = EmbeddingStoreRetriever.from(store, model, 10);
+    RetrieverRestaurant(QdrantEmbeddingStore store, EmbeddingModel model) {
+        EmbeddingStoreContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
+                .embeddingModel(model)
+                .embeddingStore(store)
+                .maxResults(3)
+                .build();
+
+        augmentor = DefaultRetrievalAugmentor
+                .builder()
+                .contentRetriever(contentRetriever)
+                .build();
     }
 
     @Override
-    public List<TextSegment> findRelevant(String s) {
-        return retriever.findRelevant(s);
+    public RetrievalAugmentor get() {
+        return augmentor;
     }
 }

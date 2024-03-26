@@ -5,7 +5,7 @@ import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 import jakarta.inject.Singleton;
 
-@RegisterAiService(retriever = RetrieverRestaurant.class, tools = RestaurantBooking.class)
+@RegisterAiService(retrievalAugmentor = RetrieverRestaurant.class, tools = RestaurantBooking.class)
 @Singleton
 public interface RecommendationRestaurant {
 
