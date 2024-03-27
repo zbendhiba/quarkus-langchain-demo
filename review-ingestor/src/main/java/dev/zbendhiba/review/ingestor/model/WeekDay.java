@@ -1,4 +1,4 @@
-package dev.zbendhiba.model;
+package dev.zbendhiba.review.ingestor.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

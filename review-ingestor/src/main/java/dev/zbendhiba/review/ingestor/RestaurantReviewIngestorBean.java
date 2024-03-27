@@ -1,15 +1,13 @@
-package dev.zbendhiba;
+package dev.zbendhiba.review.ingestor;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.Metadata;
-import dev.zbendhiba.model.RestaurantReview;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Singleton;
+import dev.zbendhiba.review.ingestor.model.RestaurantReview;
 
-@ApplicationScoped
+
 public class RestaurantReviewIngestorBean {
 
     public Document createDocument(RestaurantReview restaurantReview){
